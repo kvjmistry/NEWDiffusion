@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -J NEW_MC208 # A single job name for the array
-#SBATCH -c 1 # Number of cores
+#SBATCH -c 8 # Number of cores
 #SBATCH -p shared # Partition
 #SBATCH --mem 4000 # Memory request (6Gb)
 #SBATCH -t 0-3:00 # Maximum execution time (D-HH:MM)
@@ -56,11 +56,13 @@ for i in {1..2}; do
 done
 
 # Cleaning up
-rm -v *NEW_Tl208_ACTIVE*.next.h5 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+rm -v NEW_Tl208_ACTIVE.next.h5 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v *detsim.next.h5* 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v *diomira.next.h5* 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v *irene.next.h5* 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v *penthesilea.next.h5* 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+rm -v GammaEnergy.root 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+rm -v NEWDefaultVisibility.mac 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 
 echo "FINISHED....EXITING" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 end=`date +%s`
