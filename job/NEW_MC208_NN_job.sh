@@ -24,6 +24,7 @@ cp ~/packages/NEWDiffusion/config/* .
 cp ~/packages/nexus/macros/geometries/NEWDefaultVisibility.mac .
 
 # Edit the file configs
+sed -i "s#.*execute.*#/control/execute NEWDefaultVisibility.mac#" NEW_MC208_NN.config.mac
 sed -i "s#.*outputFile.*#/nexus/persistency/outputFile NEW_Tl208_ACTIVE.next#" NEW_MC208_NN.config.mac
 sed -i "s#.*longitudinal_diffusion.*#                      longitudinal_diffusion = ${Diff} * mm / cm**0.5,#" detsim.conf
 
