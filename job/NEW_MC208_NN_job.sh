@@ -35,7 +35,6 @@ source ~/packages/nexus/setup_nexus.sh
 # Also setup IC
 source ~/packages/IC/setup_IC.sh
 
-echo "Running NEXUS" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 for i in {1..2}; do
 
 	# Replace the seed in the file	
@@ -44,14 +43,20 @@ for i in {1..2}; do
 	sed -i "s#.*file_out.*#file_out = \"NEW_Tl208_ACTIVE_esmeralda_jobid_${SLURM_ARRAY_TASK_ID}_${i}_Diff${Diff}.next.h5\"#" esmeralda.conf
 	
 	# NEXUS
+	echo "Running NEXUS" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 	nexus -n 10000 NEW_MC208_NN.init.mac 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 
 	# IC
-	city detsim detsim.conf           2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
-	city diomira diomira.conf         2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
-	city irene irene.conf             2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+	echo "Running IC Detsim"  2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+	city detsim detsim.conf   2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+	echo "Running IC Diomira" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+	city diomira diomira.conf 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+	echo "Running IC Irene"   2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+	city irene irene.conf     2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+	echo "Running IC Penthesilea"     2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 	city penthesilea penthesilea.conf 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
-	city esmeralda esmeralda.conf     2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+	echo "Running IC Esmeralda"   2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+	city esmeralda esmeralda.conf 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 	echo; echo; echo;
 done
 
