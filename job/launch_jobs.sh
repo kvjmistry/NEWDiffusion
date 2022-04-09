@@ -5,7 +5,7 @@ declare -a StringArray=("0.1" "0.2" "0.3" "0.4" "0.5")
 
 # Iterate the string array using for loop
 for diff in ${StringArray[@]}; do
-   echo "Making jobscripts for diffusion value: $diff um"
+   echo "Making jobscripts for diffusion value: $diff"
    mkdir -p Diffusion_$diff
    cd  Diffusion_$diff
    cp ../NEW_MC208_NN_job.sh .
