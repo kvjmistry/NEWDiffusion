@@ -34,3 +34,10 @@ get to esmeralda the final job output is about 50 events.
 
 The `cleanup_jobs.sh` can be sourced to clean up the everything if you want to 
 start a fresh. Make sure the array configured is the same one as in `launch_jobs.sh`.
+
+# Output files
+The output files will be located in the following area:
+`$SCRATCH/guenette_lab/Users/$USER/NEW_MC208/$Diff/"`  
+
+The final output files are called:  
+`NEW_Tl208_ACTIVE_esmeralda_jobid_<jobid>_<1/2>_Diff<diffusion value>.next.h5`
