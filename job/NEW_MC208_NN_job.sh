@@ -12,12 +12,12 @@ start=`date +%s`
 
 # Set the configurable variables
 Diff=0.30
-JOBNAME="NEW_MC208_$Diff"
+JOBNAME="NEW_MC208"
 
 # Create the directory
 cd $SCRATCH/guenette_lab/Users/$USER/
-mkdir -p $JOBNAME/sim/jobid_"${SLURM_ARRAY_TASK_ID}"
-cd $JOBNAME/sim/jobid_"${SLURM_ARRAY_TASK_ID}"
+mkdir -p $JOBNAME/$Diff/jobid_"${SLURM_ARRAY_TASK_ID}"
+cd $JOBNAME/$Diff/jobid_"${SLURM_ARRAY_TASK_ID}"
 
 # Copy the files over
 cp ~/packages/NEWDiffusion/config/* .
