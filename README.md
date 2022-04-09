@@ -27,9 +27,10 @@ You can configure this array depending on the diffusion values you want to run.
 
 To launch the jobs, you can do `source launch_jobs.sh`. The default number of jobs
 are set to run 10 jobs 1 - 10 in the `sbatch` command at the end. You can increse
-the number 10 to 100 if say you want to run 100 jobs etc. Each job generates 2 x 5000
+the number 10 to 100 if say you want to run 100 jobs etc. Each job generates 2 x 50000
 events in nexus. You can also increase/decrease the number of events in each job
-in the `NEW_MC208_NN_job.sh` to as you need. 
+in the `NEW_MC208_NN_job.sh` to as you need. Note that by the time the events
+get to esmeralda the final job output is about 50 events. 
 
 The `cleanup_jobs.sh` can be sourced to clean up the everything if you want to 
 start a fresh. Make sure the array configured is the same one as in `launch_jobs.sh`.
