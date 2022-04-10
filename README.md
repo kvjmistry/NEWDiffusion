@@ -40,4 +40,4 @@ The output files will be located in the following area:
 `$SCRATCH/guenette_lab/Users/$USER/NEW_MC208/$Diff/"`  
 
 The final output files are called:  
-`NEW_Tl208_ACTIVE_esmeralda_jobid_<jobid>_<1/2>_Diff<diffusion value>.next.h5`
+`NEW_Tl208_ACTIVE_esmeralda_jobid_<jobid>_[1..10]_Diff<diffusion value>.next.h5`
