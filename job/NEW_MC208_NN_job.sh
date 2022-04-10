@@ -35,7 +35,7 @@ source ~/packages/nexus/setup_nexus.sh
 # Also setup IC
 source ~/packages/IC/setup_IC.sh
 
-for i in {1..10}; do
+for i in {1..5}; do
 
 	# Replace the seed in the file	
 	echo "The seed number is: $((1111111*${SLURM_ARRAY_TASK_ID}+$i))" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
