@@ -60,6 +60,15 @@ for i in {1..5}; do
 	echo; echo; echo;
 done
 
+# Merge the files into one
+mkdir temp 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+mv *esmeralda*.h5 temp 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+python ~/packages/NEWDiffusion/config/tools/merge_h5.py -i temp -o NEW_Tl208_ACTIVE_esmeralda_jobid_${SLURM_ARRAY_TASK_ID}_merged_Diff${Diff}.next.h5 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+
+# Count the events in the file and write to an output file
+echo "$(ptdump -d $file:/Run/events | sed 1,2d | wc -l | xargs)" > NumEvents.txt
+echo "Total events generated: $(ptdump -d $file:/Run/events | sed 1,2d | wc -l | xargs)" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+
 # Cleaning up
 rm -v NEW_Tl208_ACTIVE.next.h5 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v *detsim.next.h5* 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
