@@ -66,6 +66,7 @@ mv *esmeralda*.h5 temp 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 python ~/packages/NEWDiffusion/tools/merge_h5.py -i temp -o NEW_Tl208_ACTIVE_esmeralda_jobid_${SLURM_ARRAY_TASK_ID}_merged_Diff${Diff}.next.h5 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 
 # Count the events in the file and write to an output file
+file="NEW_Tl208_ACTIVE_esmeralda_jobid_${SLURM_ARRAY_TASK_ID}_merged_Diff${Diff}.next.h5"
 echo "$(ptdump -d $file:/Run/events | sed 1,2d | wc -l | xargs)" > NumEvents.txt
 echo "Total events generated: $(ptdump -d $file:/Run/events | sed 1,2d | wc -l | xargs)" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 
@@ -78,6 +79,12 @@ rm -v *penthesilea.next.h5* 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v GammaEnergy.root 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v NEWDefaultVisibility.mac 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v temp 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+
+# Remove the config files if not the first jobid
+if [ ${SLURM_ARRAY_TASK_ID} -ne 1 ]; then
+rm -v *.conf 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+rm -v *.mac 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+fi
 
 echo "FINISHED....EXITING" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 end=`date +%s`
