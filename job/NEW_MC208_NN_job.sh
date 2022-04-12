@@ -77,6 +77,7 @@ rm -v *irene.next.h5* 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v *penthesilea.next.h5* 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v GammaEnergy.root 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v NEWDefaultVisibility.mac 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+rm -v temp 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 
 echo "FINISHED....EXITING" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 end=`date +%s`
