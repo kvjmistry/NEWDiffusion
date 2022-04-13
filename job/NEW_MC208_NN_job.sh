@@ -3,7 +3,7 @@
 #SBATCH -c 8 # Number of cores
 #SBATCH -p shared # Partition
 #SBATCH --mem 4000 # Memory request (6Gb)
-#SBATCH -t 0-3:00 # Maximum execution time (D-HH:MM)
+#SBATCH -t 0-6:00 # Maximum execution time (D-HH:MM)
 #SBATCH -o NEW_MC208_%A_%a.out # Standard output
 #SBATCH -e NEW_MC208_%A_%a.err # Standard error
 
@@ -78,7 +78,7 @@ rm -v *irene.next.h5* 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v *penthesilea.next.h5* 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v GammaEnergy.root 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v NEWDefaultVisibility.mac 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
-rm -v temp 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+rm -rv temp 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 
 # Remove the config files if not the first jobid
 if [ ${SLURM_ARRAY_TASK_ID} -ne 1 ]; then
