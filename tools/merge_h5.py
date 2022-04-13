@@ -22,9 +22,21 @@ parser.add_argument("-i", "--input-folder", type=os.path.abspath)
 parser.add_argument("-o", "--output-file" , type=os.path.abspath, default="merged.h5")
 parser.add_argument("--overwrite"   , action="store_true")
 parser.add_argument("--ignore-empty", action="store_true")
+parser.add_argument("-f", "--file-wildcard", type=os.path.abspath, nargs='*')
 
 args = parser.parse_args(sys.argv[1:])
-first, *rest = sorted(glob.glob(os.path.join(args.input_folder, "*")))
+
+# Input folder given
+if (args.input_folder != None):
+    first, *rest = sorted(glob.glob(os.path.join(args.input_folder, "*")))
+
+# File wildcard given
+if (args.file_wildcard != None):
+    first, *rest = sorted(args.file_wildcard)
+
+print(first)
+print("")
+print(rest)
 
 tb.copy_file(first, args.output_file, overwrite=args.overwrite)
 
