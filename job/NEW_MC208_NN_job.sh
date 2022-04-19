@@ -13,6 +13,8 @@ start=`date +%s`
 # Set the configurable variables
 ELDrift=2.5
 JOBNAME="NEW_MC208"
+FILES_PER_JOB=5
+N_EVENTS=10000
 
 # Create the directory
 cd $SCRATCH/guenette_lab/Users/$USER/
@@ -35,16 +37,18 @@ source ~/packages/nexus/setup_nexus.sh
 # Also setup IC
 source ~/packages/IC/setup_IC.sh
 
-for i in {1..5}; do
+for i in $(eval echo "{1..${FILES_PER_JOB}}"); do
 
 	# Replace the seed in the file	
-	echo "The seed number is: $((1111111*${SLURM_ARRAY_TASK_ID}+$i))" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
-	sed -i "s#.*random_seed.*#/nexus/random_seed $((1111111*${SLURM_ARRAY_TASK_ID}+$i))#"  NEW_MC208_NN.config.mac
+	SEED=$((${N_EVENTS}*${FILES_PER_JOB}*(${SLURM_ARRAY_TASK_ID} - 1) + ${N_EVENTS}*${i}))
+	echo "The seed number is: ${SEED}" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+	sed -i "s#.*random_seed.*#/nexus/random_seed ${SEED}#"  NEW_MC208_NN.config.mac
+	sed -i "s#.*start_id.*#/nexus/persistency/start_id ${SEED}#"  NEW_MC208_NN.config.mac
 	sed -i "s#.*file_out.*#file_out = \"NEW_Tl208_ACTIVE_esmeralda_jobid_${SLURM_ARRAY_TASK_ID}_${i}_ELDrift${ELDrift}.next.h5\"#" esmeralda.conf
 	
 	# NEXUS
 	echo "Running NEXUS" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
-	nexus -n 10000 NEW_MC208_NN.init.mac 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+	nexus -n $N_EVENTS NEW_MC208_NN.init.mac 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 
 	# IC
 	echo "Running IC Detsim"  2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt

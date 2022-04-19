@@ -28,6 +28,7 @@
 
 /nexus/persistency/eventType background
 /nexus/persistency/outputFile NextNew.Tl208.ACTIVE.next
+/nexus/persistency/start_id 0
 
 /process/em/verbose 0
 

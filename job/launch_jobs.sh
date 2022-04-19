@@ -14,5 +14,6 @@ for ELDrift in ${StringArray[@]}; do
    sed -i "s#.*SBATCH -e.*#\#SBATCH -e NEW_MC208_${ELDrift}ELDrift_%A_%a.err \# Standard error#" NEW_MC208_NN_job.sh
    sed -i "s#.*ELDrift=.*#ELDrift=${ELDrift}#" NEW_MC208_NN_job.sh
    sbatch --array=1-10 NEW_MC208_NN_job.sh
+   # sbatch --array=1-500 NEW_MC208_NN_job.sh
    cd ..
 done

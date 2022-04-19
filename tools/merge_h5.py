@@ -43,6 +43,7 @@ tb.copy_file(first, args.output_file, overwrite=args.overwrite)
 to_index = {}
 with tb.open_file(args.output_file, "a") as h5out:
     for filename in rest:
+        print(filename)
         with tb.open_file(filename) as h5in:
             for node_out in filter(is_leaf, h5out.walk_nodes()):
                 path_tokens = node_out._v_pathname.split("/")[1:]
