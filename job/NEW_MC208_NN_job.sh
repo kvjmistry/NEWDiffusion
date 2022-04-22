@@ -21,7 +21,7 @@ MODE="Tl208"
 
 # Replace the particle if mode is set to electron
 if [ "MODE" = "eminus" ]; then 
-   sed -i "s#.*gamma.*#/Generator/SingleParticle/particle e-" ${CONFIG}
+   sed -i "s#.*gamma.*#/Generator/SingleParticle/particle e-#" ${CONFIG}
 fi
 
 # Create the directory
