@@ -1,0 +1,35 @@
+## ----------------------------------------------------------------------------
+## nexus | NEW_MC208_NN.config.mac
+##
+## Configuration macro to simulate gamma particles in the ACTIVE region
+## in the NEW detector.
+## The NEXT Collaboration
+## ----------------------------------------------------------------------------
+
+/run/verbose 0
+/event/verbose 0
+/tracking/verbose 0
+ 
+/Geometry/NextNew/pressure 10. bar
+/Geometry/NextNew/elfield false
+
+/control/execute NEWDefaultVisibility.mac
+
+/Generator/SingleParticle/particle gamma
+/Generator/SingleParticle/min_energy 1.5 MeV
+/Generator/SingleParticle/max_energy 1.5 MeV
+/Generator/SingleParticle/region ACTIVE
+
+/PhysicsList/Nexus/clustering          false
+/PhysicsList/Nexus/drift               false
+/PhysicsList/Nexus/electroluminescence false
+/PhysicsList/Nexus/photoelectric       false
+
+/nexus/persistency/eventType background
+/nexus/persistency/outputFile NEW_Tl208_ACTIVE.next
+/nexus/persistency/start_id 10000
+
+/process/em/verbose 0
+
+### JOB CONTROL
+/nexus/random_seed 10000

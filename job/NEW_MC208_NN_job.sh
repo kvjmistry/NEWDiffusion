@@ -15,6 +15,14 @@ ELDrift=2.5
 JOBNAME="NEW_MC208"
 FILES_PER_JOB=5
 N_EVENTS=10000
+CONFIG=NEW_MC208_NN.config.mac 
+INIT=NEW_MC208_NN.init.mac 
+MODE="Tl208"
+
+# Replace the particle if mode is set to electron
+if [ "MODE" = "eminus" ]; then 
+   sed -i "s#.*gamma.*#/Generator/SingleParticle/particle e-" ${CONFIG}
+fi
 
 # Create the directory
 cd $SCRATCH/guenette_lab/Users/$USER/
@@ -26,8 +34,8 @@ cp ~/packages/NEWDiffusion/config/* .
 cp ~/packages/nexus/macros/geometries/NEWDefaultVisibility.mac .
 
 # Edit the file configs
-sed -i "s#.*execute.*#/control/execute NEWDefaultVisibility.mac#" NEW_MC208_NN.config.mac
-sed -i "s#.*outputFile.*#/nexus/persistency/outputFile NEW_Tl208_ACTIVE.next#" NEW_MC208_NN.config.mac
+sed -i "s#.*execute.*#/control/execute NEWDefaultVisibility.mac#" ${CONFIG}
+sed -i "s#.*outputFile.*#/nexus/persistency/outputFile NEW_${MODE}_ACTIVE.next#" ${CONFIG}
 sed -i "s#.*el_drift_velocity.*#                      el_drift_velocity      = ${ELDrift} * mm / mus)#" detsim.conf
 
 # Setup nexus and run
@@ -42,13 +50,13 @@ for i in $(eval echo "{1..${FILES_PER_JOB}}"); do
 	# Replace the seed in the file	
 	SEED=$((${N_EVENTS}*${FILES_PER_JOB}*(${SLURM_ARRAY_TASK_ID} - 1) + ${N_EVENTS}*${i}))
 	echo "The seed number is: ${SEED}" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
-	sed -i "s#.*random_seed.*#/nexus/random_seed ${SEED}#"  NEW_MC208_NN.config.mac
-	sed -i "s#.*start_id.*#/nexus/persistency/start_id ${SEED}#"  NEW_MC208_NN.config.mac
-	sed -i "s#.*file_out.*#file_out = \"NEW_Tl208_ACTIVE_esmeralda_jobid_${SLURM_ARRAY_TASK_ID}_${i}_ELDrift${ELDrift}.next.h5\"#" esmeralda.conf
+	sed -i "s#.*random_seed.*#/nexus/random_seed ${SEED}#" ${CONFIG}
+	sed -i "s#.*start_id.*#/nexus/persistency/start_id ${SEED}#" ${CONFIG}
+	sed -i "s#.*file_out.*#file_out = \"NEW_${MODE}_ACTIVE_esmeralda_jobid_${SLURM_ARRAY_TASK_ID}_${i}_ELDrift${ELDrift}.next.h5\"#" esmeralda.conf
 	
 	# NEXUS
 	echo "Running NEXUS" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
-	nexus -n $N_EVENTS NEW_MC208_NN.init.mac 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+	nexus -n $N_EVENTS${INIT} 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 
 	# IC
 	echo "Running IC Detsim"  2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
@@ -67,15 +75,15 @@ done
 # Merge the files into one
 mkdir temp 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 mv *esmeralda*.h5 temp 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
-python ~/packages/NEWDiffusion/tools/merge_h5.py -i temp -o NEW_Tl208_ACTIVE_esmeralda_jobid_${SLURM_ARRAY_TASK_ID}_merged_ELDrift${ELDrift}.next.h5 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+python ~/packages/NEWDiffusion/tools/merge_h5.py -i temp -o NEW_${MODE}_ACTIVE_esmeralda_jobid_${SLURM_ARRAY_TASK_ID}_merged_ELDrift${ELDrift}.next.h5 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 
 # Count the events in the file and write to an output file
-file="NEW_Tl208_ACTIVE_esmeralda_jobid_${SLURM_ARRAY_TASK_ID}_merged_ELDrift${ELDrift}.next.h5"
+file="NEW_${MODE}_ACTIVE_esmeralda_jobid_${SLURM_ARRAY_TASK_ID}_merged_ELDrift${ELDrift}.next.h5"
 echo "$(ptdump -d $file:/Run/events | sed 1,2d | wc -l | xargs)" > NumEvents.txt
 echo "Total events generated: $(ptdump -d $file:/Run/events | sed 1,2d | wc -l | xargs)" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 
 # Cleaning up
-rm -v NEW_Tl208_ACTIVE.next.h5 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+rm -v NEW_${MODE}_ACTIVE.next.h5 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v *detsim.next.h5* 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v *diomira.next.h5* 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v *irene.next.h5* 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
