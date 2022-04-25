@@ -35,7 +35,7 @@ cp ~/packages/nexus/macros/geometries/NEWDefaultVisibility.mac .
 
 # Edit the file configs
 sed -i "s#.*execute.*#/control/execute NEWDefaultVisibility.mac#" ${CONFIG}
-sed -i "s#.*outputFile.*#/nexus/persistency/outputFile NEW_${MODE}_ACTIVE.next#" ${CONFIG}
+sed -i "s#.*outputFile.*#/nexus/persistency/outputFile NEW_Tl208_ACTIVE.next#" ${CONFIG}
 sed -i "s#.*el_drift_velocity.*#                      el_drift_velocity      = ${ELDrift} * mm / mus)#" detsim.conf
 
 # Setup nexus and run

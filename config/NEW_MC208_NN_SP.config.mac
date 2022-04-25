@@ -16,9 +16,11 @@
 /control/execute NEWDefaultVisibility.mac
 
 /Generator/SingleParticle/particle gamma
-/Generator/SingleParticle/min_energy 1.5 MeV
-/Generator/SingleParticle/max_energy 1.5 MeV
+/Generator/SingleParticle/min_energy 2.614504 MeV
+/Generator/SingleParticle/max_energy 2.614504 MeV
 /Generator/SingleParticle/region ACTIVE
+
+/Actions/DefaultEventAction/energy_threshold 1.5 MeV
 
 /PhysicsList/Nexus/clustering          false
 /PhysicsList/Nexus/drift               false
