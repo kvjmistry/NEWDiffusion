@@ -26,8 +26,8 @@ fi
 
 # Create the directory
 cd $SCRATCH/guenette_lab/Users/$USER/
-mkdir -p $JOBNAME/$ELDrift/jobid_"${SLURM_ARRAY_TASK_ID}"
-cd $JOBNAME/$ELDrift/jobid_"${SLURM_ARRAY_TASK_ID}"
+mkdir -p $JOBNAME/$ELDrift/$MODE/jobid_"${SLURM_ARRAY_TASK_ID}"
+cd $JOBNAME/$ELDrift/$MODE/jobid_"${SLURM_ARRAY_TASK_ID}"
 
 # Copy the files over
 cp ~/packages/NEWDiffusion/config/* .
