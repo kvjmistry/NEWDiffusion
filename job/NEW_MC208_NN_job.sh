@@ -52,7 +52,7 @@ for i in $(eval echo "{1..${FILES_PER_JOB}}"); do
 	echo "The seed number is: ${SEED}" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 	sed -i "s#.*random_seed.*#/nexus/random_seed ${SEED}#" ${CONFIG}
 	sed -i "s#.*start_id.*#/nexus/persistency/start_id ${SEED}#" ${CONFIG}
-	sed -i "s#.*file_out.*#file_out = \"NEW_${MODE}_ACTIVE_esmeralda_jobid_${SLURM_ARRAY_TASK_ID}_${i}_ELDrift${ELDrift}.next.h5\"#" esmeralda.conf
+	sed -i "s#.*file_out.*#file_out = \"NEW_${MODE}_ACTIVE_penthesilea_jobid_${SLURM_ARRAY_TASK_ID}_${i}_ELDrift${ELDrift}.next.h5\"#" penthesilea.conf
 	
 	# NEXUS
 	echo "Running NEXUS" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
@@ -67,35 +67,32 @@ for i in $(eval echo "{1..${FILES_PER_JOB}}"); do
 	city irene irene.conf     2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 	echo "Running IC Penthesilea"     2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 	city penthesilea penthesilea.conf 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
-	echo "Running IC Esmeralda"   2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
-	city esmeralda esmeralda.conf 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 	echo; echo; echo;
 done
 
 # Merge the files into one
 mkdir temp 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
-mv *esmeralda*.h5 temp 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
-python ~/packages/NEWDiffusion/tools/merge_h5.py -i temp -o NEW_${MODE}_ACTIVE_esmeralda_jobid_${SLURM_ARRAY_TASK_ID}_merged_ELDrift${ELDrift}.next.h5 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+mv *penthesilea*.h5 temp 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+python ~/packages/NEWDiffusion/tools/merge_h5.py -i temp -o NEW_${MODE}_ACTIVE_penthesilea_jobid_${SLURM_ARRAY_TASK_ID}_merged_ELDrift${ELDrift}.next.h5 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 
 # Count the events in the file and write to an output file
-file="NEW_${MODE}_ACTIVE_esmeralda_jobid_${SLURM_ARRAY_TASK_ID}_merged_ELDrift${ELDrift}.next.h5"
+file="NEW_${MODE}_ACTIVE_penthesilea_jobid_${SLURM_ARRAY_TASK_ID}_merged_ELDrift${ELDrift}.next.h5"
 echo "$(ptdump -d $file:/Run/events | sed 1,2d | wc -l | xargs)" > NumEvents.txt
 echo "Total events generated: $(ptdump -d $file:/Run/events | sed 1,2d | wc -l | xargs)" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 
 # Cleaning up
-rm -v NEW_${MODE}_ACTIVE.next.h5 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+rm -v NEW_Tl208_ACTIVE.next.h5 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v *detsim.next.h5* 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v *diomira.next.h5* 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v *irene.next.h5* 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
-rm -v *penthesilea.next.h5* 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v GammaEnergy.root 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 rm -v NEWDefaultVisibility.mac 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
-rm -rv temp 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 
 # Remove the config files if not the first jobid
 if [ ${SLURM_ARRAY_TASK_ID} -ne 1 ]; then
 	rm -v *.conf 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 	rm -v *.mac 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+	rm -rv temp 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 fi
 
 echo "FINISHED....EXITING" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
