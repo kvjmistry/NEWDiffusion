@@ -19,7 +19,7 @@
 /Generator/IonGenerator/mass_number 208
 /Generator/IonGenerator/region ACTIVE
 
-/Actions/DefaultEventAction/energy_threshold 1.5 MeV
+# /Actions/DefaultEventAction/energy_threshold 1.5 MeV
 
 /PhysicsList/Nexus/clustering          false
 /PhysicsList/Nexus/drift               false
