@@ -13,7 +13,7 @@ start=`date +%s`
 # Set the configurable variables
 ELDrift=2.5
 JOBNAME="NEW_MC208"
-FILES_PER_JOB=5
+FILES_PER_JOB=1
 N_EVENTS=10000
 CONFIG=NEW_MC208_NN.config.mac 
 INIT=NEW_MC208_NN.init.mac 

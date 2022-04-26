@@ -15,7 +15,7 @@ for SP in ${StringArray[@]}; do
    sed -i "s#.*CONFIG=.*#CONFIG=NEW_MC208_NN_SP.config.mac#" NEW_MC208_NN_job.sh
    sed -i "s#.*INIT=.*#INIT=NEW_MC208_NN_SP.init.mac#" NEW_MC208_NN_job.sh
    sed -i "s#.*MODE=.*#MODE=${SP}#" NEW_MC208_NN_job.sh
-   sbatch --array=1-10 NEW_MC208_NN_job.sh
+   sbatch --array=1-50 NEW_MC208_NN_job.sh
    # sbatch --array=1-500 NEW_MC208_NN_job.sh
    cd ..
 done
