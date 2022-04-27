@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Declare an array of string with type, these are the EL drift vel values to run
-declare -a StringArray=("1.25" "2.5" "3.75")
+declare -a StringArray=("1.25" "2.5" "3.75" "14.4" "18.6")
 
 # Iterate the string array using for loop
 for ELDrift in ${StringArray[@]}; do

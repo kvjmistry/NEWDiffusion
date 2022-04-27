@@ -37,6 +37,7 @@ cp ~/packages/nexus/macros/geometries/NEWDefaultVisibility.mac .
 sed -i "s#.*execute.*#/control/execute NEWDefaultVisibility.mac#" ${CONFIG}
 sed -i "s#.*outputFile.*#/nexus/persistency/outputFile NEW_Tl208_ACTIVE.next#" ${CONFIG}
 sed -i "s#.*el_drift_velocity.*#                      el_drift_velocity      = ${ELDrift} * mm / mus)#" detsim.conf
+sed -i "s#.*map_fname.*#  map_fname              = '/n/home05/$USER/packages/NEWDiffusion/database/TEST_kr_emap_xy_r_bndry_7746_st200819_band_zrms_alternate.h5',#" esmeralda.conf
 
 # Setup nexus and run
 echo "Setting Up NEXUS" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
@@ -52,7 +53,7 @@ for i in $(eval echo "{1..${FILES_PER_JOB}}"); do
 	echo "The seed number is: ${SEED}" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 	sed -i "s#.*random_seed.*#/nexus/random_seed ${SEED}#" ${CONFIG}
 	sed -i "s#.*start_id.*#/nexus/persistency/start_id ${SEED}#" ${CONFIG}
-	sed -i "s#.*file_out.*#file_out = \"NEW_${MODE}_ACTIVE_penthesilea_jobid_${SLURM_ARRAY_TASK_ID}_${i}_ELDrift${ELDrift}.next.h5\"#" penthesilea.conf
+	# sed -i "s#.*file_out.*#file_out = \"NEW_${MODE}_ACTIVE_esmeralda_jobid_${SLURM_ARRAY_TASK_ID}_${i}_ELDrift${ELDrift}.next.h5\"#" esmeralda.conf
 	
 	# NEXUS
 	echo "Running NEXUS" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
@@ -67,13 +68,24 @@ for i in $(eval echo "{1..${FILES_PER_JOB}}"); do
 	city irene irene.conf     2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 	echo "Running IC Penthesilea"     2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 	city penthesilea penthesilea.conf 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+	echo "Running IC Esmeralda"     2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+	city esmeralda esmeralda.conf 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+
+	# Rename files
+	mv NEW_Tl208_ACTIVE_penthesilea.next.h5 NEW_${MODE}_ACTIVE_penthesilea_jobid_${SLURM_ARRAY_TASK_ID}_${i}_ELDrift${ELDrift}.next.h5
+	mv NEW_Tl208_ACTIVE_esmeralda.next.h5 NEW_${MODE}_ACTIVE_esmeralda_jobid_${SLURM_ARRAY_TASK_ID}_${i}_ELDrift${ELDrift}.next.h5
+
 	echo; echo; echo;
 done
 
 # Merge the files into one
-mkdir temp 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
-mv *penthesilea*.h5 temp 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
-python ~/packages/NEWDiffusion/tools/merge_h5.py -i temp -o NEW_${MODE}_ACTIVE_penthesilea_jobid_${SLURM_ARRAY_TASK_ID}_merged_ELDrift${ELDrift}.next.h5 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+mkdir temp_penthesilea 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+mv *penthesilea*.h5 temp_penthesilea 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+python ~/packages/NEWDiffusion/tools/merge_h5.py -i temp_penthesilea -o NEW_${MODE}_ACTIVE_penthesilea_jobid_${SLURM_ARRAY_TASK_ID}_merged_ELDrift${ELDrift}.next.h5 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+
+mkdir temp_esmeralda 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+mv *esmeralda*.h5 temp_esmeralda 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+python ~/packages/NEWDiffusion/tools/merge_h5.py -i temp_esmeralda -o NEW_${MODE}_ACTIVE_penthesilea_jobid_${SLURM_ARRAY_TASK_ID}_merged_ELDrift${ELDrift}.next.h5 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 
 # Count the events in the file and write to an output file
 file="NEW_${MODE}_ACTIVE_penthesilea_jobid_${SLURM_ARRAY_TASK_ID}_merged_ELDrift${ELDrift}.next.h5"
@@ -92,7 +104,8 @@ rm -v NEWDefaultVisibility.mac 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".
 if [ ${SLURM_ARRAY_TASK_ID} -ne 1 ]; then
 	rm -v *.conf 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 	rm -v *.mac 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
-	rm -rv temp 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+	rm -rv temp_penthesilea 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+	rm -rv temp_esmeralda 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 fi
 
 echo "FINISHED....EXITING" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
