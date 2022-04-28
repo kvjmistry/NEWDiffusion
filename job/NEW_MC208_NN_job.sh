@@ -14,7 +14,7 @@ start=`date +%s`
 ELDrift=2.5
 JOBNAME="NEW_MC208"
 FILES_PER_JOB=1
-N_EVENTS=10000
+N_EVENTS=500
 CONFIG=NEW_MC208_NN.config.mac 
 INIT=NEW_MC208_NN.init.mac 
 MODE="Tl208"
@@ -85,7 +85,7 @@ python ~/packages/NEWDiffusion/tools/merge_h5.py -i temp_penthesilea -o NEW_${MO
 
 mkdir temp_esmeralda 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 mv *esmeralda*.h5 temp_esmeralda 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
-python ~/packages/NEWDiffusion/tools/merge_h5.py -i temp_esmeralda -o NEW_${MODE}_ACTIVE_penthesilea_jobid_${SLURM_ARRAY_TASK_ID}_merged_ELDrift${ELDrift}.next.h5 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
+python ~/packages/NEWDiffusion/tools/merge_h5.py -i temp_esmeralda -o NEW_${MODE}_ACTIVE_esmeralda_jobid_${SLURM_ARRAY_TASK_ID}_merged_ELDrift${ELDrift}.next.h5 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
 
 # Count the events in the file and write to an output file
 file="NEW_${MODE}_ACTIVE_penthesilea_jobid_${SLURM_ARRAY_TASK_ID}_merged_ELDrift${ELDrift}.next.h5"
