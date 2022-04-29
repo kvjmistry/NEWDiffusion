@@ -13,7 +13,7 @@
 /Geometry/NextNew/pressure 10. bar
 /Geometry/NextNew/elfield false
 
-/control/execute macros/geometries/NEWDefaultVisibility.mac
+# /control/execute macros/geometries/NEWDefaultVisibility.mac
 
 /Generator/IonGenerator/atomic_number 81
 /Generator/IonGenerator/mass_number 208

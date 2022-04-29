@@ -13,7 +13,7 @@
 /Geometry/NextNew/pressure 10. bar
 /Geometry/NextNew/elfield false
 
-/control/execute NEWDefaultVisibility.mac
+# /control/execute NEWDefaultVisibility.mac
 
 /Generator/SingleParticle/particle gamma
 /Generator/SingleParticle/min_energy 2.614504 MeV
