@@ -37,7 +37,7 @@ cp ~/packages/nexus/macros/geometries/NEWDefaultVisibility.mac .
 sed -i "s#.*execute.*#/control/execute NEWDefaultVisibility.mac#" ${CONFIG}
 sed -i "s#.*outputFile.*#/nexus/persistency/outputFile NEW_Tl208_ACTIVE.next#" ${CONFIG}
 sed -i "s#.*el_drift_velocity.*#                      el_drift_velocity      = ${ELDrift} * mm / mus)#" detsim.conf
-sed -i "s#.*map_fname.*#  map_fname              = '/n/home05/$USER/packages/NEWDiffusion/database/TEST_kr_emap_xy_r_bndry_7746_st200819_band_zrms_alternate.h5',#" esmeralda.conf
+# sed -i "s#.*map_fname.*#  map_fname              = '/n/home05/$USER/packages/NEWDiffusion/database/TEST_kr_emap_xy_r_bndry_7746_st200819_band_zrms_alternate.h5',#" esmeralda.conf
 
 # Setup nexus and run
 echo "Setting Up NEXUS" 2>&1 | tee -a log_nexus_"${SLURM_ARRAY_TASK_ID}".txt
