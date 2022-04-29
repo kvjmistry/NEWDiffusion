@@ -10,16 +10,21 @@
 /event/verbose 0
 /tracking/verbose 0
  
-/Geometry/NextNew/pressure 10. bar
+/Geometry/NextNew/pressure 10.1 bar
 /Geometry/NextNew/elfield false
+/Geometry/NextNew/max_step_size 1. mm
 
-# /control/execute macros/geometries/NEWDefaultVisibility.mac
+/Geometry/PmtR11410/SD_depth 4
+
+/Geometry/CalibrationSource/source Th
+/Geometry/NextNew/internal_calib_port upper
+/Geometry/NextNew/source_distance 0. mm
 
 /Generator/IonGenerator/atomic_number 81
 /Generator/IonGenerator/mass_number 208
-/Generator/IonGenerator/region ACTIVE
+/Generator/IonGenerator/region INTERNAL_PORT_UPPER
 
-# /Actions/DefaultEventAction/energy_threshold 1.5 MeV
+/Actions/DefaultEventAction/energy_threshold 0.4 MeV
 
 /PhysicsList/Nexus/clustering          false
 /PhysicsList/Nexus/drift               false

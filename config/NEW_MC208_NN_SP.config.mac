@@ -10,7 +10,7 @@
 /event/verbose 0
 /tracking/verbose 0
  
-/Geometry/NextNew/pressure 10. bar
+/Geometry/NextNew/pressure 10.1 bar
 /Geometry/NextNew/elfield false
 
 # /control/execute NEWDefaultVisibility.mac
