@@ -14,8 +14,6 @@
 /Geometry/NextNew/elfield false
 /Geometry/NextNew/max_step_size 1. mm
 
-/Geometry/PmtR11410/SD_depth 4
-
 /Geometry/CalibrationSource/source Th
 /Geometry/NextNew/internal_calib_port upper
 /Geometry/NextNew/source_distance 0. mm
