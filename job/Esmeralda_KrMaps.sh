@@ -14,7 +14,7 @@ start=`date +%s`
 KrMap=""
 MODE="match"
 JOBNAME="Esmeralda"
-FILES_PER_JOB=10
+FILES_PER_JOB=50
 PROCESS=$((${SLURM_ARRAY_TASK_ID} - 1))
 
 # Create the directory
@@ -28,6 +28,7 @@ cp ~/packages/NEWDiffusion/config/filelist.txt .
 
 # Edit the file configs
 sed -i "s#.*map_fname.*#  map_fname              = '/n/home05/$USER/packages/NEWDiffusion/database/${KrMap}',#" esmeralda.conf
+sed -i "s#.*run_number.*#run_number = 7746#" esmeralda.conf
 
 # Setup IC
 source ~/packages/IC/setup_IC.sh
