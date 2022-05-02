@@ -15,6 +15,7 @@ for i in ${!MapArray[@]}; do
    sed -i "s#.*SBATCH -o.*#\#SBATCH -o KrMap_${MAP}_%A_%a.out \# Standard output#" Esmeralda_KrMaps.sh
    sed -i "s#.*SBATCH -e.*#\#SBATCH -e KrMap_${MAP}_%A_%a.err \# Standard error#" Esmeralda_KrMaps.sh
    sed -i "s#.*KrMap=.*#KrMap=${FileArray[$i]}#" Esmeralda_KrMaps.sh
+   sed -i "s#.*MODE=.*#MODE=${MAP}#" Esmeralda_KrMaps.sh
    sbatch --array=1-148 Esmeralda_KrMaps.sh
    cd ..
 done
